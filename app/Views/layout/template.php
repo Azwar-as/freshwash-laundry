@@ -597,8 +597,8 @@
                     <i class="bi bi-box-arrow-right"></i>
                 </a>
                 <div class="user-info">
-                    <div class="user-avatar">
-                        <?= strtoupper(substr(session()->get('user_nama') ?? 'A', 0, 2)) ?>
+                    <div class="user-avatar" style="padding: 0; background: none;">
+                        <img src="https://i.pravatar.cc/150?u=<?= urlencode(session()->get('user_nama') ?? 'Admin') ?>&background=7c3aed&color=fff" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
                     </div>
                     <div>
                         <div class="user-name"><?= esc(session()->get('user_nama') ?? 'Admin') ?></div>

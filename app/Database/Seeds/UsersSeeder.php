@@ -10,7 +10,7 @@ class UsersSeeder extends Seeder
     {
         $data = [
             [
-                'nama'       => 'Administrator',
+                'nama'       => 'Sadewa Jaya',
                 'email'      => 'admin@freshwash.com',
                 'password'   => password_hash('admin123', PASSWORD_BCRYPT),
                 'role'       => 'admin',
@@ -18,7 +18,7 @@ class UsersSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'nama'       => 'Kasir FreshWash',
+                'nama'       => 'Putri Indah',
                 'email'      => 'kasir@freshwash.com',
                 'password'   => password_hash('kasir123', PASSWORD_BCRYPT),
                 'role'       => 'kasir',
@@ -27,6 +27,6 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        $this->db->table('users')->insertBatch($data);
+        $this->db->table('users')->ignore(true)->insertBatch($data);
     }
 }

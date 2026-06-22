@@ -59,9 +59,7 @@
                                 <td class="fw-semibold text-secondary"><?= $no++ ?></td>
                                 <td>
                                     <div class="d-flex align-items-center gap-3">
-                                        <div style="width:36px;height:36px;background:var(--primary-gradient);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.8rem;">
-                                            <?= strtoupper(substr($item['nama'], 0, 2)) ?>
-                                        </div>
+                                        <img src="https://i.pravatar.cc/150?u=<?= esc($item['id']) ?>" alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                                         <div class="fw-semibold"><?= esc($item['nama']) ?></div>
                                     </div>
                                 </td>
