@@ -16,7 +16,7 @@
             <div class="card-body p-0">
                 <div class="list-group list-group-flush" style="border-radius:16px;">
                     <a href="<?= base_url('/pengaturan') ?>" class="list-group-item list-group-item-action p-3 fw-semibold active" style="background:var(--primary-gradient);color:#fff;border:none;">
-                        <i class="bi bi-shop me-2"></i> Pengaturan Toko
+                        <i class="bi bi-shop me-2"></i> Profil Laundry
                     </a>
                     <a href="<?= base_url('/pengaturan/profile') ?>" class="list-group-item list-group-item-action p-3 fw-semibold text-secondary" style="border:none;">
                         <i class="bi bi-person-badge me-2"></i> Profil Saya
@@ -30,7 +30,7 @@
     <div class="col-md-8 col-lg-9 animate-fadeInUp animate-delay-1" style="opacity:0">
         <div class="card h-100">
             <div class="card-header">
-                <h5 class="mb-0 fw-bold"><i class="bi bi-shop me-2" style="color: #7c3aed;"></i>Pengaturan Toko</h5>
+                <h5 class="mb-0 fw-bold"><i class="bi bi-shop me-2" style="color: #7c3aed;"></i>Profil Laundry</h5>
             </div>
             <div class="card-body">
                 <form action="<?= base_url('/pengaturan/update') ?>" method="POST">
@@ -63,9 +63,9 @@
                         </div>
                         
                         <div class="col-12">
-                            <label for="deskripsi" class="form-label">Deskripsi Toko (Footer)</label>
+                            <label for="deskripsi" class="form-label">Catatan Tambahan di Nota</label>
                             <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3"><?= esc($settings['deskripsi'] ?? '') ?></textarea>
-                            <div class="form-text">Deskripsi singkat yang akan muncul pada nota atau info aplikasi.</div>
+                            <div class="form-text">Pesan tambahan yang akan dicetak di bagian bawah struk transaksi pelanggan.</div>
                         </div>
                         
                         <div class="col-12 mt-4">

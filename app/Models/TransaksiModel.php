@@ -27,9 +27,6 @@ class TransaksiModel extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
-    /**
-     * Generate kode transaksi unik: TRX-YYYYMMDD-XXX
-     */
     public function generateKode()
     {
         $today = date('Ymd');
@@ -47,9 +44,6 @@ class TransaksiModel extends Model
         return "TRX-{$today}-" . str_pad($newNum, 3, '0', STR_PAD_LEFT);
     }
 
-    /**
-     * Get transaksi with joined pelanggan and user data
-     */
     public function getTransaksiWithRelations($id = null)
     {
         $builder = $this->select('transaksi.*, pelanggan.nama as nama_pelanggan, pelanggan.telepon, users.nama as nama_kasir')

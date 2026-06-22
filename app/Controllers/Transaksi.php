@@ -69,14 +69,36 @@ class Transaksi extends BaseController
 
         $items = $this->request->getPost('items');
 
-        if (empty($items)) {
+        if (empty($items) || !is_array($items)) {
             return redirect()->to('/transaksi/create')->withInput()->with('error', 'Tambahkan minimal 1 item layanan.');
         }
 
-        // Hitung total harga
+        $layananModel = new JenisLayananModel();
         $totalHarga = 0;
+        $processedItems = [];
+
+        // Validasi dan hitung subtotal secara server-side
         foreach ($items as $item) {
-            $totalHarga += (float)$item['subtotal'];
+            $layananId = $item['jenis_layanan_id'] ?? 0;
+            $jumlah    = (float) ($item['jumlah'] ?? 0);
+
+            if ($jumlah <= 0) {
+                return redirect()->to('/transaksi/create')->withInput()->with('error', 'Jumlah layanan tidak valid.');
+            }
+
+            $layanan = $layananModel->find($layananId);
+            if (!$layanan) {
+                return redirect()->to('/transaksi/create')->withInput()->with('error', 'Jenis layanan tidak valid.');
+            }
+
+            $subtotal = $layanan['harga'] * $jumlah;
+            $totalHarga += $subtotal;
+
+            $processedItems[] = [
+                'jenis_layanan_id' => $layananId,
+                'jumlah'           => $jumlah,
+                'subtotal'         => $subtotal,
+            ];
         }
 
         // Simpan transaksi
@@ -95,12 +117,12 @@ class Transaksi extends BaseController
         $transaksiId = $this->transaksiModel->getInsertID();
 
         // Simpan detail transaksi
-        foreach ($items as $item) {
+        foreach ($processedItems as $pItem) {
             $this->detailModel->insert([
                 'transaksi_id'     => $transaksiId,
-                'jenis_layanan_id' => $item['jenis_layanan_id'],
-                'jumlah'           => $item['jumlah'],
-                'subtotal'         => $item['subtotal'],
+                'jenis_layanan_id' => $pItem['jenis_layanan_id'],
+                'jumlah'           => $pItem['jumlah'],
+                'subtotal'         => $pItem['subtotal'],
             ]);
         }
 

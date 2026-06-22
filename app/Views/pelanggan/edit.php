@@ -38,7 +38,7 @@
                             <input type="text" class="form-control" id="nama" name="nama" value="<?= old('nama', $pelanggan['nama']) ?>" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="telepon" class="form-label">No. Telepon</label>
+                            <label for="telepon" class="form-label">No. Telepon / WhatsApp</label>
                             <input type="text" class="form-control" id="telepon" name="telepon" value="<?= old('telepon', $pelanggan['telepon']) ?>">
                         </div>
                         <div class="col-12">
@@ -56,7 +56,7 @@
                                 <button type="submit" class="btn btn-primary-gradient">
                                     <i class="bi bi-check-lg"></i> Simpan Perubahan
                                 </button>
-                                <a href="<?= base_url('/pelanggan') ?>" class="btn btn-outline-secondary" style="border-radius:10px;padding:10px 24px;">Batal</a>
+                                <a href="<?= base_url('/pelanggan') ?>" class="btn btn-outline-secondary" style="border-radius:10px;padding:10px 24px;">Kembali</a>
                             </div>
                         </div>
                     </div>

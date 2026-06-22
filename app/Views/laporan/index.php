@@ -16,7 +16,7 @@
             </div>
             <div class="col-md-4">
                 <button type="submit" class="btn btn-primary-gradient w-100">
-                    <i class="bi bi-funnel me-1"></i> Filter Laporan
+                    <i class="bi bi-funnel me-1"></i> Tampilkan Laporan
                 </button>
             </div>
         </form>
@@ -57,7 +57,7 @@
             </div>
             <div class="card-body">
                 <?php if (empty($layananPopuler)) : ?>
-                    <p class="text-secondary text-center py-3">Belum ada data</p>
+                    <p class="text-secondary text-center py-3">Belum ada pesanan terpopuler pada rentang waktu ini.</p>
                 <?php else : ?>
                     <?php $rank = 1; foreach ($layananPopuler as $lp) : ?>
                         <div class="d-flex align-items-center gap-3 mb-3 p-2" style="background:#f8fafc;border-radius:10px;">
@@ -85,11 +85,11 @@
                 <?php if (empty($transaksi)) : ?>
                     <div class="empty-state py-4">
                         <i class="bi bi-inbox" style="font-size:2.5rem;"></i>
-                        <h6 class="text-secondary">Tidak ada transaksi di periode ini</h6>
+                        <h6 class="text-secondary mt-3">Belum ada pemasukan pada rentang tanggal ini. Coba pilih tanggal yang berbeda.</h6>
                     </div>
                 <?php else : ?>
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-sm mt-2">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -107,7 +107,15 @@
                                         <td><span class="fw-semibold" style="color:#6366f1;"><?= esc($trx['kode_transaksi']) ?></span></td>
                                         <td><?= esc($trx['nama_pelanggan'] ?? '-') ?></td>
                                         <td class="text-secondary"><?= date('d M Y', strtotime($trx['tanggal_masuk'])) ?></td>
-                                        <td><span class="badge-status badge-<?= $trx['status'] ?>"><?= ucfirst($trx['status']) ?></span></td>
+                                        <?php
+                                            $statusText = [
+                                                'antrian' => 'Antrean',
+                                                'proses'  => 'Sedang Dicuci',
+                                                'selesai' => 'Siap Diambil',
+                                                'diambil' => 'Sudah Diambil'
+                                            ];
+                                        ?>
+                                        <td><span class="badge-status badge-<?= $trx['status'] ?>"><?= $statusText[$trx['status']] ?? ucfirst($trx['status']) ?></span></td>
                                         <td class="price-tag">Rp <?= number_format($trx['total_harga'], 0, ',', '.') ?></td>
                                     </tr>
                                 <?php endforeach; ?>

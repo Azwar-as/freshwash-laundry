@@ -51,7 +51,7 @@
             </div>
 
             <!-- ITEM LAYANAN -->
-            <h6 class="fw-bold mb-3"><i class="bi bi-list-check me-2" style="color:#7c3aed;"></i>Item Layanan</h6>
+            <h6 class="fw-bold mb-3"><i class="bi bi-list-check me-2" style="color:#7c3aed;"></i>Rincian Cucian</h6>
             <div class="table-responsive mb-3">
                 <table class="table" id="itemTable">
                     <thead>
@@ -88,10 +88,10 @@
 
             <hr class="mb-4" style="border-color: #e2e8f0;">
             <div class="d-flex gap-3">
-                <button type="submit" class="btn btn-primary-gradient">
-                    <i class="bi bi-check-lg"></i> Simpan Transaksi
+                <button type="submit" class="btn btn-primary-gradient" id="btnSubmit">
+                    <i class="bi bi-check-lg" id="submitIcon"></i> <span id="submitText">Buat Nota Pesanan</span>
                 </button>
-                <a href="<?= base_url('/transaksi') ?>" class="btn btn-outline-secondary" style="border-radius:10px;padding:10px 24px;">Batal</a>
+                <a href="<?= base_url('/transaksi') ?>" class="btn btn-outline-secondary" style="border-radius:10px;padding:10px 24px;">Kembali</a>
             </div>
         </form>
     </div>
@@ -175,5 +175,17 @@
 
     // Add first item by default
     addItem();
+
+    // Prevent double submit
+    document.getElementById('formTransaksi').addEventListener('submit', function(e) {
+        var btn = document.getElementById('btnSubmit');
+        var text = document.getElementById('submitText');
+        var icon = document.getElementById('submitIcon');
+        
+        btn.setAttribute('disabled', 'disabled');
+        btn.classList.add('opacity-75');
+        text.textContent = 'Memproses...';
+        icon.className = 'spinner-border spinner-border-sm';
+    });
 </script>
 <?= $this->endSection() ?>

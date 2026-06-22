@@ -38,8 +38,8 @@
                             <input type="text" class="form-control" id="nama" name="nama" value="<?= old('nama') ?>" placeholder="Nama lengkap" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="telepon" class="form-label">No. Telepon</label>
-                            <input type="text" class="form-control" id="telepon" name="telepon" value="<?= old('telepon') ?>" placeholder="08xxxxxxxxxx">
+                            <label for="telepon" class="form-label">No. Telepon / WhatsApp</label>
+                            <input type="text" class="form-control" id="telepon" name="telepon" value="<?= old('telepon') ?>" placeholder="Contoh: 08123456789">
                         </div>
                         <div class="col-12">
                             <label for="alamat" class="form-label">Alamat</label>
@@ -51,7 +51,7 @@
                                 <button type="submit" class="btn btn-primary-gradient">
                                     <i class="bi bi-check-lg"></i> Simpan Pelanggan
                                 </button>
-                                <a href="<?= base_url('/pelanggan') ?>" class="btn btn-outline-secondary" style="border-radius:10px;padding:10px 24px;">Batal</a>
+                                <a href="<?= base_url('/pelanggan') ?>" class="btn btn-outline-secondary" style="border-radius:10px;padding:10px 24px;">Kembali</a>
                             </div>
                         </div>
                     </div>

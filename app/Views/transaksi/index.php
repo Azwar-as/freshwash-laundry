@@ -22,10 +22,10 @@
         <div class="d-flex align-items-center gap-2 flex-wrap">
             <span class="fw-semibold me-2" style="font-size:0.85rem;">Filter:</span>
             <a href="<?= base_url('/transaksi') ?>" class="btn btn-sm <?= !$filterStatus ? 'btn-primary-gradient' : 'btn-outline-secondary' ?>" style="border-radius:8px;padding:6px 16px;font-size:0.8rem;">Semua</a>
-            <a href="<?= base_url('/transaksi?status=antrian') ?>" class="btn btn-sm <?= $filterStatus === 'antrian' ? 'btn-warning' : 'btn-outline-warning' ?>" style="border-radius:8px;padding:6px 16px;font-size:0.8rem;">Antrian</a>
-            <a href="<?= base_url('/transaksi?status=proses') ?>" class="btn btn-sm <?= $filterStatus === 'proses' ? 'btn-primary' : 'btn-outline-primary' ?>" style="border-radius:8px;padding:6px 16px;font-size:0.8rem;">Proses</a>
-            <a href="<?= base_url('/transaksi?status=selesai') ?>" class="btn btn-sm <?= $filterStatus === 'selesai' ? 'btn-success' : 'btn-outline-success' ?>" style="border-radius:8px;padding:6px 16px;font-size:0.8rem;">Selesai</a>
-            <a href="<?= base_url('/transaksi?status=diambil') ?>" class="btn btn-sm <?= $filterStatus === 'diambil' ? 'btn-secondary' : 'btn-outline-secondary' ?>" style="border-radius:8px;padding:6px 16px;font-size:0.8rem;">Diambil</a>
+            <a href="<?= base_url('/transaksi?status=antrian') ?>" class="btn btn-sm <?= $filterStatus === 'antrian' ? 'btn-warning' : 'btn-outline-warning' ?>" style="border-radius:8px;padding:6px 16px;font-size:0.8rem;">Antrean</a>
+            <a href="<?= base_url('/transaksi?status=proses') ?>" class="btn btn-sm <?= $filterStatus === 'proses' ? 'btn-primary' : 'btn-outline-primary' ?>" style="border-radius:8px;padding:6px 16px;font-size:0.8rem;">Sedang Dicuci</a>
+            <a href="<?= base_url('/transaksi?status=selesai') ?>" class="btn btn-sm <?= $filterStatus === 'selesai' ? 'btn-success' : 'btn-outline-success' ?>" style="border-radius:8px;padding:6px 16px;font-size:0.8rem;">Siap Diambil</a>
+            <a href="<?= base_url('/transaksi?status=diambil') ?>" class="btn btn-sm <?= $filterStatus === 'diambil' ? 'btn-secondary' : 'btn-outline-secondary' ?>" style="border-radius:8px;padding:6px 16px;font-size:0.8rem;">Sudah Diambil</a>
         </div>
     </div>
 </div>
@@ -38,19 +38,19 @@
             Daftar Transaksi
         </h5>
         <a href="<?= base_url('/transaksi/create') ?>" class="btn btn-primary-gradient">
-            <i class="bi bi-plus-lg"></i> Transaksi Baru
+            <i class="bi bi-plus-lg"></i> Buat Nota Pesanan
         </a>
     </div>
     <div class="card-body p-0">
         <?php if (empty($transaksi)) : ?>
             <div class="empty-state">
                 <i class="bi bi-receipt"></i>
-                <h5>Belum Ada Transaksi</h5>
-                <p>Klik "Transaksi Baru" untuk membuat transaksi.</p>
+                <h5>Belum ada pesanan masuk</h5>
+                <p class="text-secondary mt-2">Catat pesanan pertama Anda dengan menekan tombol "Buat Nota Pesanan".</p>
             </div>
         <?php else : ?>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-sm mt-2">
                     <thead>
                         <tr>
                             <th>Kode</th>
@@ -69,7 +69,15 @@
                                 <td class="fw-semibold"><?= esc($trx['nama_pelanggan'] ?? '-') ?></td>
                                 <td class="text-secondary"><?= date('d M Y', strtotime($trx['tanggal_masuk'])) ?></td>
                                 <td><span class="price-tag">Rp <?= number_format($trx['total_harga'], 0, ',', '.') ?></span></td>
-                                <td><span class="badge-status badge-<?= $trx['status'] ?>"><?= ucfirst($trx['status']) ?></span></td>
+                                <?php
+                                    $statusText = [
+                                        'antrian' => 'Antrean',
+                                        'proses'  => 'Sedang Dicuci',
+                                        'selesai' => 'Siap Diambil',
+                                        'diambil' => 'Sudah Diambil'
+                                    ];
+                                ?>
+                                <td><span class="badge-status badge-<?= $trx['status'] ?>"><?= $statusText[$trx['status']] ?? ucfirst($trx['status']) ?></span></td>
                                 <td class="text-secondary" style="font-size:0.82rem;"><?= esc($trx['nama_kasir'] ?? '-') ?></td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
@@ -104,10 +112,10 @@
                 <form id="statusForm" method="POST">
                     <?= csrf_field() ?>
                     <select class="form-select mb-3" id="statusSelect" name="status">
-                        <option value="antrian">Antrian</option>
-                        <option value="proses">Proses</option>
-                        <option value="selesai">Selesai</option>
-                        <option value="diambil">Diambil</option>
+                        <option value="antrian">Antrean</option>
+                        <option value="proses">Sedang Dicuci</option>
+                        <option value="selesai">Siap Diambil</option>
+                        <option value="diambil">Sudah Diambil</option>
                     </select>
                     <div class="d-flex gap-3 justify-content-end">
                         <button type="button" class="btn btn-secondary" style="border-radius:10px;" data-bs-dismiss="modal">Batal</button>

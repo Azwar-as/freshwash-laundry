@@ -14,9 +14,7 @@ class JenisLayanan extends BaseController
         helper('text');
     }
 
-    /**
-     * Menampilkan daftar semua jenis layanan
-     */
+   /* Menampilkan daftar semua jenis layanan */
     public function index()
     {
         $data = [
@@ -27,9 +25,7 @@ class JenisLayanan extends BaseController
         return view('jenis_layanan/index', $data);
     }
 
-    /**
-     * Menampilkan form tambah jenis layanan baru
-     */
+    /* Menampilkan form tambah jenis layanan baru */
     public function create()
     {
         $data = [
@@ -40,8 +36,8 @@ class JenisLayanan extends BaseController
         return view('jenis_layanan/create', $data);
     }
 
-    /**
-     * Menyimpan data jenis layanan baru
+    /*
+     Menyimpan data jenis layanan baru
      */
     public function store()
     {
@@ -96,8 +92,8 @@ class JenisLayanan extends BaseController
         return redirect()->to('/jenis-layanan');
     }
 
-    /**
-     * Menampilkan form edit jenis layanan
+    /*
+     Menampilkan form edit jenis layanan
      */
     public function edit($id = null)
     {
@@ -116,8 +112,8 @@ class JenisLayanan extends BaseController
         return view('jenis_layanan/edit', $data);
     }
 
-    /**
-     * Mengupdate data jenis layanan
+    /*
+      Mengupdate data jenis layanan
      */
     public function update($id = null)
     {
@@ -178,8 +174,8 @@ class JenisLayanan extends BaseController
         return redirect()->to('/jenis-layanan');
     }
 
-    /**
-     * Menghapus data jenis layanan
+    /*
+      Menghapus data jenis layanan
      */
     public function delete($id = null)
     {

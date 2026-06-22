@@ -39,7 +39,7 @@
             display: flex;
         }
 
-        /* ======== SIDEBAR ======== */
+        /* SIDEBAR   */
         .sidebar {
             width: 270px;
             background: var(--sidebar-bg);
@@ -149,7 +149,7 @@
             margin: 0;
         }
 
-        /* ======== MAIN CONTENT ======== */
+        /* MAIN CONTENT   */
         .main-content {
             margin-left: 270px;
             flex: 1;
@@ -158,7 +158,7 @@
             flex-direction: column;
         }
 
-        /* ======== TOP NAVBAR ======== */
+        /* TOP NAVBAR   */
         .top-navbar {
             background: #fff;
             padding: 16px 32px;
@@ -261,13 +261,13 @@
             text-transform: capitalize;
         }
 
-        /* ======== CONTENT AREA ======== */
+        /* CONTENT AREA   */
         .content-area {
             padding: 32px;
             flex: 1;
         }
 
-        /* ======== CARDS ======== */
+        /* CARDS   */
         .card {
             border: none;
             border-radius: 16px;
@@ -290,7 +290,7 @@
             padding: 24px;
         }
 
-        /* ======== BUTTONS ======== */
+        /* BUTTONS   */
         .btn-primary-gradient {
             background: var(--primary-gradient);
             border: none;
@@ -337,7 +337,7 @@
         .btn-status { background: #fef3c7; color: #d97706; }
         .btn-status:hover { background: #d97706; color: #fff; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.35); }
 
-        /* ======== TABLE ======== */
+        /* Table */
         .table { margin: 0; }
 
         .table thead th {
@@ -365,7 +365,7 @@
 
         .table tbody tr:hover { background: #f8fafc; }
 
-        /* ======== BADGES ======== */
+        /* badges */
         .badge-status {
             padding: 6px 14px;
             border-radius: 20px;
@@ -379,7 +379,7 @@
         .badge-antrian { background: #fef3c7; color: #d97706; }
         .badge-proses { background: #dbeafe; color: #2563eb; }
 
-        /* ======== FORMS ======== */
+        /* FORMS */
         .form-control, .form-select {
             border-radius: 10px;
             border: 1.5px solid #e2e8f0;
@@ -405,7 +405,7 @@
             color: var(--text-secondary);
         }
 
-        /* ======== ALERTS ======== */
+        /* Alert */
         .alert {
             border-radius: 12px;
             border: none;
@@ -419,7 +419,7 @@
         .alert-success { background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); color: #166534; }
         .alert-danger { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); color: #991b1b; }
 
-        /* ======== STAT CARDS ======== */
+        /* stat Card */
         .stat-card {
             background: #fff;
             border-radius: 16px;
@@ -479,7 +479,7 @@
         .stat-orange::before { background: linear-gradient(135deg, #f97316, #ef4444); }
         .stat-orange .stat-icon { background: #ffedd5; color: #ea580c; }
 
-        /* ======== EMPTY STATE ======== */
+        /* EMPTY STATE   */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -491,7 +491,7 @@
 
         .price-tag { font-weight: 700; color: #7c3aed; }
 
-        /* ======== FOOTER ======== */
+        /* FOOTER   */
         .main-footer {
             padding: 20px 32px;
             border-top: 1px solid #e2e8f0;
@@ -500,7 +500,7 @@
 
         .main-footer p { margin: 0; font-size: 0.78rem; color: var(--text-secondary); }
 
-        /* ======== ANIMATIONS ======== */
+        /* ANIMATIONS   */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -512,7 +512,7 @@
         .animate-delay-3 { animation-delay: 0.3s; }
         .animate-delay-4 { animation-delay: 0.4s; }
 
-        /* ======== RESPONSIVE ======== */
+        /* RESPONSIVE   */
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); }
             .main-content { margin-left: 0; }
@@ -520,7 +520,7 @@
             .top-navbar { padding: 12px 16px; }
         }
 
-        /* ======== SCROLLBAR ======== */
+        /* SCROLLBAR   */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }

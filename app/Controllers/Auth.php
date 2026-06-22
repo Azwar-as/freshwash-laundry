@@ -6,12 +6,8 @@ use App\Models\UserModel;
 
 class Auth extends BaseController
 {
-    /**
-     * Tampilkan halaman login
-     */
     public function login()
     {
-        // Jika sudah login, redirect ke dashboard
         if (session()->get('isLoggedIn')) {
             return redirect()->to('/dashboard');
         }
@@ -19,9 +15,6 @@ class Auth extends BaseController
         return view('auth/login');
     }
 
-    /**
-     * Proses autentikasi login
-     */
     public function authenticate()
     {
         $email    = $this->request->getPost('email');
@@ -50,9 +43,6 @@ class Auth extends BaseController
         return redirect()->to('/dashboard')->with('success', 'Selamat datang, ' . $user['nama'] . '!');
     }
 
-    /**
-     * Logout - hapus session
-     */
     public function logout()
     {
         session()->destroy();

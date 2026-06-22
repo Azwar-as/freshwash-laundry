@@ -37,12 +37,12 @@
         <?php if (empty($pelanggan)) : ?>
             <div class="empty-state">
                 <i class="bi bi-people"></i>
-                <h5>Belum Ada Data</h5>
-                <p>Klik tombol "Tambah Pelanggan" untuk menambahkan pelanggan baru.</p>
+                <h5>Wah, daftar pelanggan masih kosong</h5>
+                <p class="text-secondary mt-2">Mulai catat pelanggan pertama Anda dengan menekan tombol Tambah Pelanggan di atas.</p>
             </div>
         <?php else : ?>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-sm mt-2">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -84,10 +84,10 @@
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="<?= base_url('/pelanggan/edit/' . $item['id']) ?>"
-                                           class="btn-action btn-edit" title="Edit">
+                                           class="btn-action btn-edit" title="Ubah Data">
                                             <i class="bi bi-pencil-fill"></i>
                                         </a>
-                                        <button type="button" class="btn-action btn-delete" title="Hapus"
+                                        <button type="button" class="btn-action btn-delete" title="Hapus Pelanggan"
                                                 onclick="confirmDelete(<?= $item['id'] ?>, '<?= esc($item['nama']) ?>')">
                                             <i class="bi bi-trash-fill"></i>
                                         </button>

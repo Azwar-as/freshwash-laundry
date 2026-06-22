@@ -7,8 +7,8 @@
     <div class="card-body py-4">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h3 class="fw-bold mb-1">Selamat Datang, <?= esc(session()->get('user_nama')) ?>! 👋</h3>
-                <p class="mb-0" style="opacity: 0.85;">Kelola usaha laundry Anda dengan mudah melalui dashboard ini.</p>
+                <h3 class="fw-bold mb-1">Halo, <?= esc(session()->get('user_nama')) ?>! Siap melayani pelanggan hari ini?</h3>
+                <p class="mb-0" style="opacity: 0.85;">Pantau antrean dan omset usaha laundry Anda hari ini.</p>
             </div>
             <div class="col-md-4 text-end">
                 <span style="font-size: 3rem; opacity: 0.3;"><i class="bi bi-droplet-fill"></i></span>
@@ -31,21 +31,21 @@
         <div class="stat-card stat-purple">
             <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
             <div class="stat-value"><?= $totalPelanggan ?></div>
-            <div class="stat-label">Total Pelanggan</div>
+            <div class="stat-label">Pelanggan Terdaftar</div>
         </div>
     </div>
     <div class="col-md-6 col-xl-3 animate-fadeInUp animate-delay-2" style="opacity:0">
         <div class="stat-card stat-blue">
             <div class="stat-icon"><i class="bi bi-receipt"></i></div>
             <div class="stat-value"><?= $transaksiHariIni ?></div>
-            <div class="stat-label">Transaksi Hari Ini</div>
+            <div class="stat-label">Pesanan Masuk Hari Ini</div>
         </div>
     </div>
     <div class="col-md-6 col-xl-3 animate-fadeInUp animate-delay-3" style="opacity:0">
         <div class="stat-card stat-green">
             <div class="stat-icon"><i class="bi bi-cash-stack"></i></div>
             <div class="stat-value" style="font-size: 1.4rem;">Rp <?= number_format($pendapatanBulanIni, 0, ',', '.') ?></div>
-            <div class="stat-label">Pendapatan Bulan Ini</div>
+            <div class="stat-label">Pemasukan Bulan Ini</div>
         </div>
     </div>
     <div class="col-md-6 col-xl-3 animate-fadeInUp animate-delay-4" style="opacity:0">
@@ -67,22 +67,22 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3 p-3" style="background: #fef3c7; border-radius: 12px;">
                     <div>
-                        <div class="fw-bold" style="color: #d97706;">Antrian</div>
-                        <small class="text-secondary">Menunggu proses</small>
+                        <div class="fw-bold" style="color: #d97706;">Antrean</div>
+                        <small class="text-secondary">Menunggu proses cucian</small>
                     </div>
                     <span class="fs-3 fw-bold" style="color: #d97706;"><?= $statusAntrian ?></span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-3 p-3" style="background: #dbeafe; border-radius: 12px;">
                     <div>
-                        <div class="fw-bold" style="color: #2563eb;">Proses</div>
-                        <small class="text-secondary">Sedang dikerjakan</small>
+                        <div class="fw-bold" style="color: #2563eb;">Sedang Dicuci</div>
+                        <small class="text-secondary">Pakaian sedang diproses</small>
                     </div>
                     <span class="fs-3 fw-bold" style="color: #2563eb;"><?= $statusProses ?></span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center p-3" style="background: #dcfce7; border-radius: 12px;">
                     <div>
-                        <div class="fw-bold" style="color: #16a34a;">Selesai</div>
-                        <small class="text-secondary">Siap diambil</small>
+                        <div class="fw-bold" style="color: #16a34a;">Siap Diambil</div>
+                        <small class="text-secondary">Menunggu pelanggan</small>
                     </div>
                     <span class="fs-3 fw-bold" style="color: #16a34a;"><?= $statusSelesai ?></span>
                 </div>
@@ -103,11 +103,11 @@
                 <?php if (empty($transaksiTerakhir)) : ?>
                     <div class="empty-state py-4">
                         <i class="bi bi-inbox" style="font-size: 2.5rem;"></i>
-                        <h6 class="text-secondary">Belum ada transaksi</h6>
+                        <h6 class="text-secondary mt-3">Belum ada pesanan masuk sama sekali.</h6>
                     </div>
                 <?php else : ?>
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-sm mt-2">
                             <thead>
                                 <tr>
                                     <th>Kode</th>
@@ -123,7 +123,15 @@
                                         <td><span class="fw-semibold" style="color: #6366f1;"><?= esc($trx['kode_transaksi']) ?></span></td>
                                         <td><?= esc($trx['nama_pelanggan'] ?? '-') ?></td>
                                         <td><span class="price-tag">Rp <?= number_format($trx['total_harga'], 0, ',', '.') ?></span></td>
-                                        <td><span class="badge-status badge-<?= $trx['status'] ?>"><?= ucfirst($trx['status']) ?></span></td>
+                                        <?php
+                                            $statusText = [
+                                                'antrian' => 'Antrean',
+                                                'proses'  => 'Sedang Dicuci',
+                                                'selesai' => 'Siap Diambil',
+                                                'diambil' => 'Sudah Diambil'
+                                            ];
+                                        ?>
+                                        <td><span class="badge-status badge-<?= $trx['status'] ?>"><?= $statusText[$trx['status']] ?? ucfirst($trx['status']) ?></span></td>
                                         <td class="text-secondary"><?= date('d M Y', strtotime($trx['tanggal_masuk'])) ?></td>
                                     </tr>
                                 <?php endforeach; ?>

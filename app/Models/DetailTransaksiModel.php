@@ -21,9 +21,6 @@ class DetailTransaksiModel extends Model
 
     protected $useTimestamps = false;
 
-    /**
-     * Get detail with jenis layanan info
-     */
     public function getDetailByTransaksi($transaksiId)
     {
         return $this->select('detail_transaksi.*, jenis_layanan.nama_layanan, jenis_layanan.harga, jenis_layanan.satuan')

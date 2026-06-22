@@ -18,19 +18,12 @@ class PengaturanModel extends Model
     ];
 
     protected $useTimestamps = false;
-
-    /**
-     * Get setting value by key
-     */
-    public function getValue($key, $default = null)
+public function getValue($key, $default = null)
     {
         $row = $this->where('key', $key)->first();
         return $row ? $row['value'] : $default;
     }
 
-    /**
-     * Set setting value by key
-     */
     public function setValue($key, $value)
     {
         $existing = $this->where('key', $key)->first();
@@ -42,9 +35,6 @@ class PengaturanModel extends Model
         return $this->insert(['key' => $key, 'value' => $value]);
     }
 
-    /**
-     * Get all settings as associative array
-     */
     public function getAllSettings()
     {
         $rows = $this->findAll();
