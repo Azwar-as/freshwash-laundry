@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\JenisLayananModel;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class JenisLayanan extends BaseController
 {
@@ -189,5 +191,38 @@ class JenisLayanan extends BaseController
 
         session()->setFlashdata('success', 'Data jenis layanan berhasil dihapus!');
         return redirect()->to('/jenis-layanan');
+    }
+
+    public function exportPdf()
+    {
+        $layanan = $this->jenisLayananModel->orderBy('status', 'ASC')->orderBy('nama_layanan', 'ASC')->findAll();
+
+        $totalLayanan  = count($layanan);
+        $totalAktif    = count(array_filter($layanan, fn($l) => $l['status'] === 'aktif'));
+        $totalNonaktif = $totalLayanan - $totalAktif;
+        $avgHarga      = $totalLayanan > 0 ? array_sum(array_column($layanan, 'harga')) / $totalLayanan : 0;
+
+        $html = view('jenis_layanan/pdf', [
+            'layanan'       => $layanan,
+            'totalLayanan'  => $totalLayanan,
+            'totalAktif'    => $totalAktif,
+            'totalNonaktif' => $totalNonaktif,
+            'avgHarga'      => $avgHarga,
+        ]);
+
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', false);
+        $options->set('defaultFont', 'DejaVu Sans');
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html, 'UTF-8');
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        $dompdf->stream('FreshWash-Layanan-' . date('Ymd-His') . '.pdf', [
+            'Attachment' => false,  
+        ]);
+        exit;
     }
 }

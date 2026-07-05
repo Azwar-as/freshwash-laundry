@@ -64,10 +64,17 @@
                 Daftar Jenis Layanan
             </h5>
         </div>
-        <a href="<?= base_url('/jenis-layanan/create') ?>" class="btn btn-primary-gradient">
-            <i class="bi bi-plus-lg"></i>
-            Tambah Layanan
-        </a>
+        <div class="d-flex gap-2">
+            <a href="<?= base_url('/jenis-layanan/export-pdf') ?>" target="_blank"
+               class="btn btn-sm" title="Export ke PDF"
+               style="border-radius:8px; border:1.5px solid #7c3aed; color:#7c3aed; font-size:0.82rem; font-weight:600; padding:6px 14px;">
+                <i class="bi bi-file-earmark-pdf-fill me-1"></i> Export PDF
+            </a>
+            <a href="<?= base_url('/jenis-layanan/create') ?>" class="btn btn-primary-gradient">
+                <i class="bi bi-plus-lg"></i>
+                Tambah Layanan
+            </a>
+        </div>
     </div>
     <div class="card-body p-0">
         <?php if (empty($layanan)) : ?>
@@ -118,6 +125,15 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
+                                        <?php if ($item['status'] === 'aktif') : ?>
+                                            <button type="button" class="btn-action btn-add-cart"
+                                                    title="Tambah ke Keranjang"
+                                                    style="background:#ede9fe; color:#7c3aed; border:1px solid #ddd6fe;"
+                                                    data-id="<?= $item['id'] ?>"
+                                                    data-nama="<?= esc($item['nama_layanan']) ?>">
+                                                <i class="bi bi-cart-plus-fill"></i>
+                                            </button>
+                                        <?php endif; ?>
                                         <a href="<?= base_url('/jenis-layanan/edit/' . $item['id']) ?>"
                                            class="btn-action btn-edit" title="Edit">
                                             <i class="bi bi-pencil-fill"></i>
@@ -163,7 +179,76 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('scripts') ?>
+<div id="toastContainer" style="position:fixed; top:20px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:10px;"></div>
+
 <script>
+    const CSRF_NAME = '<?= csrf_token() ?>';
+    let   CSRF_HASH = '<?= csrf_hash() ?>';
+    const BASE_URL  = '<?= base_url() ?>';
+
+    function showToast(msg, type = 'success') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        const isSuccess = type === 'success';
+        toast.style.cssText = `
+            background: ${isSuccess ? '#f0fdf4' : '#fef2f2'};
+            border: 1px solid ${isSuccess ? '#bbf7d0' : '#fecaca'};
+            color: ${isSuccess ? '#166534' : '#991b1b'};
+            border-radius: 12px; padding: 12px 16px;
+            font-size: 0.85rem; font-weight: 500;
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            animation: slideIn 0.3s ease;
+            min-width: 280px;
+        `;
+        toast.innerHTML = `<i class="bi bi-${isSuccess ? 'check-circle-fill' : 'exclamation-circle-fill'}"></i> ${msg}`;
+        container.appendChild(toast);
+        setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.4s'; setTimeout(() => toast.remove(), 400); }, 3000);
+    }
+
+    document.querySelectorAll('.btn-add-cart').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const id   = this.dataset.id;
+            const nama = this.dataset.nama;
+            const me   = this;
+
+            me.disabled = true;
+            me.innerHTML = '<i class="bi bi-hourglass-split"></i>';
+
+            const body = new URLSearchParams();
+            body.append('id', id);
+            body.append('qty', 1);
+            body.append(CSRF_NAME, CSRF_HASH);
+
+            fetch(BASE_URL + 'cart/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: body,
+            })
+            .then(r => r.json())
+            .then(function(res) {
+                CSRF_HASH = res.csrf_hash ?? CSRF_HASH; 
+                if (res.status === 'success') {
+                    showToast(res.message, 'success');
+                    const badge = document.getElementById('cartBadge');
+                    if (badge) {
+                        badge.textContent = res.cart_count;
+                        badge.style.display = 'inline-flex';
+                    }
+                } else {
+                    showToast(res.message ?? 'Terjadi kesalahan.', 'error');
+                }
+                me.disabled = false;
+                me.innerHTML = '<i class="bi bi-cart-plus-fill"></i>';
+            })
+            .catch(function() {
+                showToast('Koneksi gagal.', 'error');
+                me.disabled = false;
+                me.innerHTML = '<i class="bi bi-cart-plus-fill"></i>';
+            });
+        });
+    });
+
     function confirmDelete(id, name) {
         document.getElementById('deleteItemName').textContent = '"' + name + '"?';
         document.getElementById('deleteLink').href = '<?= base_url('/jenis-layanan/delete/') ?>' + id;
@@ -171,7 +256,6 @@
         deleteModal.show();
     }
 
-    // Auto-hide flash messages
     setTimeout(function() {
         var alerts = document.querySelectorAll('.alert');
         alerts.forEach(function(alert) {

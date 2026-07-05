@@ -149,7 +149,6 @@
             margin: 0;
         }
 
-        /* MAIN CONTENT   */
         .main-content {
             margin-left: 270px;
             flex: 1;
@@ -158,7 +157,6 @@
             flex-direction: column;
         }
 
-        /* TOP NAVBAR   */
         .top-navbar {
             background: #fff;
             padding: 16px 32px;
@@ -261,13 +259,12 @@
             text-transform: capitalize;
         }
 
-        /* CONTENT AREA   */
+   
         .content-area {
             padding: 32px;
             flex: 1;
         }
 
-        /* CARDS   */
         .card {
             border: none;
             border-radius: 16px;
@@ -290,7 +287,6 @@
             padding: 24px;
         }
 
-        /* BUTTONS   */
         .btn-primary-gradient {
             background: var(--primary-gradient);
             border: none;
@@ -337,7 +333,6 @@
         .btn-status { background: #fef3c7; color: #d97706; }
         .btn-status:hover { background: #d97706; color: #fff; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.35); }
 
-        /* Table */
         .table { margin: 0; }
 
         .table thead th {
@@ -365,7 +360,6 @@
 
         .table tbody tr:hover { background: #f8fafc; }
 
-        /* badges */
         .badge-status {
             padding: 6px 14px;
             border-radius: 20px;
@@ -379,7 +373,6 @@
         .badge-antrian { background: #fef3c7; color: #d97706; }
         .badge-proses { background: #dbeafe; color: #2563eb; }
 
-        /* FORMS */
         .form-control, .form-select {
             border-radius: 10px;
             border: 1.5px solid #e2e8f0;
@@ -405,7 +398,6 @@
             color: var(--text-secondary);
         }
 
-        /* Alert */
         .alert {
             border-radius: 12px;
             border: none;
@@ -419,7 +411,6 @@
         .alert-success { background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); color: #166534; }
         .alert-danger { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); color: #991b1b; }
 
-        /* stat Card */
         .stat-card {
             background: #fff;
             border-radius: 16px;
@@ -479,7 +470,6 @@
         .stat-orange::before { background: linear-gradient(135deg, #f97316, #ef4444); }
         .stat-orange .stat-icon { background: #ffedd5; color: #ea580c; }
 
-        /* EMPTY STATE   */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -491,7 +481,6 @@
 
         .price-tag { font-weight: 700; color: #7c3aed; }
 
-        /* FOOTER   */
         .main-footer {
             padding: 20px 32px;
             border-top: 1px solid #e2e8f0;
@@ -500,7 +489,6 @@
 
         .main-footer p { margin: 0; font-size: 0.78rem; color: var(--text-secondary); }
 
-        /* ANIMATIONS   */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -512,7 +500,6 @@
         .animate-delay-3 { animation-delay: 0.3s; }
         .animate-delay-4 { animation-delay: 0.4s; }
 
-        /* RESPONSIVE   */
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); }
             .main-content { margin-left: 0; }
@@ -520,7 +507,6 @@
             .top-navbar { padding: 12px 16px; }
         }
 
-        /* SCROLLBAR   */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
@@ -530,19 +516,20 @@
 <body>
 
     <?php
-        // Determine active menu from current URL
         $currentUrl = uri_string();
         $menuItems = [
             ['url' => 'dashboard',      'icon' => 'bi-grid-1x2-fill',  'label' => 'Dashboard'],
             ['url' => 'jenis-layanan',  'icon' => 'bi-tags-fill',      'label' => 'Jenis Layanan'],
             ['url' => 'pelanggan',      'icon' => 'bi-people-fill',    'label' => 'Pelanggan'],
             ['url' => 'transaksi',      'icon' => 'bi-receipt',        'label' => 'Transaksi'],
+            ['url' => 'cart',           'icon' => 'bi-cart3',          'label' => 'Keranjang'],
             ['url' => 'laporan',        'icon' => 'bi-bar-chart-fill', 'label' => 'Laporan'],
             ['url' => 'pengaturan',     'icon' => 'bi-gear-fill',      'label' => 'Pengaturan'],
         ];
+        $cartLib   = new \App\Libraries\Cart();
+        $cartCount = $cartLib->totalQty();
     ?>
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-brand">
             <h4>
@@ -556,16 +543,24 @@
 
         <nav class="sidebar-menu">
             <div class="menu-label">Menu Utama</div>
-            <?php foreach (array_slice($menuItems, 0, 4) as $item): ?>
+            <?php foreach (array_slice($menuItems, 0, 5) as $item): ?>
                 <a href="<?= base_url('/' . $item['url']) ?>"
-                   class="nav-link <?= (strpos($currentUrl, $item['url']) === 0) ? 'active' : '' ?>">
+                   class="nav-link <?= (strpos($currentUrl, $item['url']) === 0) ? 'active' : '' ?>"
+                   style="position: relative;">
                     <i class="bi <?= $item['icon'] ?>"></i>
                     <?= $item['label'] ?>
+                    <?php if ($item['url'] === 'cart' && $cartCount > 0) : ?>
+                        <span style="margin-left:auto; background:#ef4444; color:#fff;
+                                     border-radius:10px; padding:1px 7px;
+                                     font-size:0.68rem; font-weight:700;">
+                            <?= $cartCount ?>
+                        </span>
+                    <?php endif; ?>
                 </a>
             <?php endforeach; ?>
 
             <div class="menu-label mt-4">Lainnya</div>
-            <?php foreach (array_slice($menuItems, 4) as $item): ?>
+            <?php foreach (array_slice($menuItems, 5) as $item): ?>
                 <a href="<?= base_url('/' . $item['url']) ?>"
                    class="nav-link <?= (strpos($currentUrl, $item['url']) === 0) ? 'active' : '' ?>">
                     <i class="bi <?= $item['icon'] ?>"></i>
@@ -579,9 +574,7 @@
         </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
     <main class="main-content">
-        <!-- TOP NAVBAR -->
         <header class="top-navbar">
             <div class="page-title-area">
                 <h1><?= $title ?? 'Dashboard' ?></h1>
@@ -593,6 +586,29 @@
                 </nav>
             </div>
             <div class="navbar-actions">
+                <a href="<?= base_url('/cart') ?>" class="btn-icon position-relative" title="Keranjang Belanja"
+                   style="border-color: #ede9fe; color:#7c3aed; text-decoration:none;">
+                    <i class="bi bi-cart3"></i>
+                    <?php if ($cartCount > 0) : ?>
+                        <span id="cartBadge"
+                              style="position:absolute; top:-6px; right:-6px;
+                                     background:#ef4444; color:#fff;
+                                     border-radius:50%; width:18px; height:18px;
+                                     font-size:0.65rem; font-weight:700;
+                                     display:inline-flex; align-items:center; justify-content:center;
+                                     line-height:1;">
+                            <?= $cartCount ?>
+                        </span>
+                    <?php else : ?>
+                        <span id="cartBadge"
+                              style="position:absolute; top:-6px; right:-6px;
+                                     background:#ef4444; color:#fff;
+                                     border-radius:50%; width:18px; height:18px;
+                                     font-size:0.65rem; font-weight:700;
+                                     display:none; align-items:center; justify-content:center;
+                                     line-height:1;">0</span>
+                    <?php endif; ?>
+                </a>
                 <a href="<?= base_url('/auth/logout') ?>" class="btn-icon btn-logout" title="Logout">
                     <i class="bi bi-box-arrow-right"></i>
                 </a>
@@ -608,18 +624,15 @@
             </div>
         </header>
 
-        <!-- CONTENT AREA -->
         <div class="content-area">
             <?= $this->renderSection('content') ?>
         </div>
 
-        <!-- FOOTER -->
         <footer class="main-footer">
             <p>FreshWash Laundry &mdash; Sistem Manajemen Layanan Laundry &copy; <?= date('Y') ?></p>
         </footer>
     </main>
 
-    <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <?= $this->renderSection('scripts') ?>

@@ -23,6 +23,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
         $routes->get('edit/(:num)', 'JenisLayanan::edit/$1');
         $routes->post('update/(:num)', 'JenisLayanan::update/$1');
         $routes->get('delete/(:num)', 'JenisLayanan::delete/$1');
+        $routes->get('export-pdf', 'JenisLayanan::exportPdf');
     });
 
     $routes->group('pelanggan', static function ($routes) {
@@ -41,6 +42,16 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
         $routes->get('show/(:num)', 'Transaksi::show/$1');
         $routes->post('update-status/(:num)', 'Transaksi::updateStatus/$1');
         $routes->get('delete/(:num)', 'Transaksi::delete/$1');
+    });
+
+    $routes->group('cart', static function ($routes) {
+        $routes->get('/', 'CartController::index');           
+        $routes->post('add', 'CartController::add');          
+        $routes->post('update', 'CartController::update');    
+        $routes->post('remove', 'CartController::remove');    
+        $routes->post('destroy', 'CartController::destroy');  
+        $routes->get('total', 'CartController::total');       
+        $routes->post('checkout', 'CartController::checkout');
     });
 
     $routes->get('laporan', 'Laporan::index');
