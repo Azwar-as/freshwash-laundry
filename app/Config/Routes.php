@@ -2,8 +2,6 @@
 
 use CodeIgniter\Router\RouteCollection;
 
-/** @var RouteCollection $routes */
-
 $routes->get('/', 'Dashboard::index', ['filter' => 'auth']);
 
 $routes->group('auth', static function ($routes) {
@@ -16,14 +14,14 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     
     $routes->get('dashboard', 'Dashboard::index');
     
-    $routes->group('jenis-layanan', static function ($routes) {
-        $routes->get('/', 'JenisLayanan::index');
+    $routes->get('jenis-layanan', 'JenisLayanan::index');
+    $routes->get('jenis-layanan/export-pdf', 'JenisLayanan::exportPdf');
+    $routes->group('jenis-layanan', ['filter' => 'role:admin'], static function ($routes) {
         $routes->get('create', 'JenisLayanan::create');
         $routes->post('store', 'JenisLayanan::store');
         $routes->get('edit/(:num)', 'JenisLayanan::edit/$1');
         $routes->post('update/(:num)', 'JenisLayanan::update/$1');
         $routes->get('delete/(:num)', 'JenisLayanan::delete/$1');
-        $routes->get('export-pdf', 'JenisLayanan::exportPdf');
     });
 
     $routes->group('pelanggan', static function ($routes) {
@@ -32,8 +30,8 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
         $routes->post('store', 'Pelanggan::store');
         $routes->get('edit/(:num)', 'Pelanggan::edit/$1');
         $routes->post('update/(:num)', 'Pelanggan::update/$1');
-        $routes->get('delete/(:num)', 'Pelanggan::delete/$1');
     });
+    $routes->get('pelanggan/delete/(:num)', 'Pelanggan::delete/$1', ['filter' => 'role:admin']);
 
     $routes->group('transaksi', static function ($routes) {
         $routes->get('/', 'Transaksi::index');
@@ -41,8 +39,8 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
         $routes->post('store', 'Transaksi::store');
         $routes->get('show/(:num)', 'Transaksi::show/$1');
         $routes->post('update-status/(:num)', 'Transaksi::updateStatus/$1');
-        $routes->get('delete/(:num)', 'Transaksi::delete/$1');
     });
+    $routes->get('transaksi/delete/(:num)', 'Transaksi::delete/$1', ['filter' => 'role:admin']);
 
     $routes->group('cart', static function ($routes) {
         $routes->get('/', 'CartController::index');           
@@ -54,12 +52,10 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
         $routes->post('checkout', 'CartController::checkout');
     });
 
-    $routes->get('laporan', 'Laporan::index');
+    $routes->get('laporan', 'Laporan::index', ['filter' => 'role:admin']);
 
-    $routes->group('pengaturan', static function ($routes) {
-        $routes->get('/', 'Pengaturan::index');
-        $routes->post('update', 'Pengaturan::update');
-        $routes->get('profile', 'Pengaturan::profile');
-        $routes->post('update-profile', 'Pengaturan::updateProfile');
-    });
+    $routes->get('pengaturan', 'Pengaturan::index', ['filter' => 'role:admin']);
+    $routes->post('pengaturan/update', 'Pengaturan::update', ['filter' => 'role:admin']);
+    $routes->get('pengaturan/profile', 'Pengaturan::profile');
+    $routes->post('pengaturan/update-profile', 'Pengaturan::updateProfile');
 });

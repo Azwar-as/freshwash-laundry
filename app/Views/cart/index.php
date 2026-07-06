@@ -234,7 +234,7 @@
 </style>
 <script>
     const CSRF_NAME  = '<?= csrf_token() ?>';
-    const CSRF_HASH  = '<?= csrf_hash() ?>';
+    let   CSRF_HASH  = '<?= csrf_hash() ?>';
     const BASE_URL   = '<?= base_url() ?>';
 
     function formatRupiah(num) {
@@ -257,7 +257,10 @@
             body: new URLSearchParams(data),
         })
         .then(r => r.json())
-        .then(callback)
+        .then(function(res) {
+            if (res.csrf_hash) CSRF_HASH = res.csrf_hash;
+            callback(res);
+        })
         .catch(err => console.error(err));
     }
 

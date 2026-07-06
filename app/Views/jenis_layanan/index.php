@@ -70,10 +70,12 @@
                style="border-radius:8px; border:1.5px solid #7c3aed; color:#7c3aed; font-size:0.82rem; font-weight:600; padding:6px 14px;">
                 <i class="bi bi-file-earmark-pdf-fill me-1"></i> Export PDF
             </a>
-            <a href="<?= base_url('/jenis-layanan/create') ?>" class="btn btn-primary-gradient">
-                <i class="bi bi-plus-lg"></i>
-                Tambah Layanan
-            </a>
+            <?php if (session()->get('user_role') === 'admin') : ?>
+                <a href="<?= base_url('/jenis-layanan/create') ?>" class="btn btn-primary-gradient">
+                    <i class="bi bi-plus-lg"></i>
+                    Tambah Layanan
+                </a>
+            <?php endif; ?>
         </div>
     </div>
     <div class="card-body p-0">
@@ -134,15 +136,17 @@
                                                 <i class="bi bi-cart-plus-fill"></i>
                                             </button>
                                         <?php endif; ?>
-                                        <a href="<?= base_url('/jenis-layanan/edit/' . $item['id']) ?>"
-                                           class="btn-action btn-edit" title="Edit">
-                                            <i class="bi bi-pencil-fill"></i>
-                                        </a>
-                                        <button type="button" class="btn-action btn-delete"
-                                                title="Hapus"
-                                                onclick="confirmDelete(<?= $item['id'] ?>, '<?= esc($item['nama_layanan']) ?>')">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </button>
+                                        <?php if (session()->get('user_role') === 'admin') : ?>
+                                            <a href="<?= base_url('/jenis-layanan/edit/' . $item['id']) ?>"
+                                               class="btn-action btn-edit" title="Ubah Data">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </a>
+                                            <button type="button" class="btn-action btn-delete"
+                                                    title="Hapus Layanan"
+                                                    onclick="confirmDelete(<?= $item['id'] ?>, '<?= esc($item['nama_layanan']) ?>')">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
                             </tr>

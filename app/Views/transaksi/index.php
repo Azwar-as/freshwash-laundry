@@ -88,10 +88,12 @@
                                                 <i class="bi bi-arrow-right-circle-fill"></i>
                                             </button>
                                         <?php endif; ?>
-                                        <button type="button" class="btn-action btn-delete" title="Hapus"
-                                                onclick="confirmDelete(<?= $trx['id'] ?>, '<?= esc($trx['kode_transaksi']) ?>')">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </button>
+                                        <?php if (session()->get('user_role') === 'admin') : ?>
+                                            <button type="button" class="btn-action btn-delete" title="Hapus"
+                                                    onclick="confirmDelete(<?= $trx['id'] ?>, '<?= esc($trx['kode_transaksi']) ?>')">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
                             </tr>
@@ -103,7 +105,6 @@
     </div>
 </div>
 
-<!-- STATUS UPDATE MODAL -->
 <div class="modal fade" id="statusModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius:16px;border:none;">
@@ -127,7 +128,6 @@
     </div>
 </div>
 
-<!-- DELETE MODAL -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius:16px;border:none;">

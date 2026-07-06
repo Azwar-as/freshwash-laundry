@@ -85,10 +85,12 @@
                                            class="btn-action btn-edit" title="Ubah Data">
                                             <i class="bi bi-pencil-fill"></i>
                                         </a>
-                                        <button type="button" class="btn-action btn-delete" title="Hapus Pelanggan"
-                                                onclick="confirmDelete(<?= $item['id'] ?>, '<?= esc($item['nama']) ?>')">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </button>
+                                        <?php if (session()->get('user_role') === 'admin') : ?>
+                                            <button type="button" class="btn-action btn-delete" title="Hapus Pelanggan"
+                                                    onclick="confirmDelete(<?= $item['id'] ?>, '<?= esc($item['nama']) ?>')">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
                             </tr>
@@ -100,7 +102,6 @@
     </div>
 </div>
 
-<!-- DELETE MODAL -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 16px; border: none;">

@@ -56,8 +56,9 @@ class CartController extends BaseController
 
         if (! $inserted) {
             return $this->response->setJSON([
-                'status'  => 'error',
-                'message' => 'Gagal menambahkan item ke keranjang.',
+                'status'    => 'error',
+                'message'   => 'Gagal menambahkan item ke keranjang.',
+                'csrf_hash' => csrf_hash(),
             ])->setStatusCode(422);
         }
 
@@ -66,6 +67,7 @@ class CartController extends BaseController
             'message'      => '"' . $layanan['nama_layanan'] . '" berhasil ditambahkan ke keranjang.',
             'cart_count'   => $this->cart->totalQty(),
             'cart_total'   => $this->cart->total(),
+            'csrf_hash'    => csrf_hash(),
         ]);
     }
 
@@ -78,19 +80,21 @@ class CartController extends BaseController
 
         if (! $updated && $qty > 0) {
             return $this->response->setJSON([
-                'status'  => 'error',
-                'message' => 'Item tidak ditemukan di keranjang.',
+                'status'    => 'error',
+                'message'   => 'Item tidak ditemukan di keranjang.',
+                'csrf_hash' => csrf_hash(),
             ])->setStatusCode(422);
         }
 
         return $this->response->setJSON([
-            'status'      => 'success',
-            'message'     => 'Quantity berhasil diperbarui.',
-            'cart_count'  => $this->cart->totalQty(),
-            'cart_total'  => $this->cart->total(),
+            'status'        => 'success',
+            'message'       => 'Quantity berhasil diperbarui.',
+            'cart_count'    => $this->cart->totalQty(),
+            'cart_total'    => $this->cart->total(),
             'item_subtotal' => isset($this->cart->getContents()[$id])
                               ? $this->cart->getContents()[$id]['subtotal']
                               : 0,
+            'csrf_hash'     => csrf_hash(),
         ]);
     }
 
@@ -105,6 +109,7 @@ class CartController extends BaseController
             'message'    => 'Item berhasil dihapus dari keranjang.',
             'cart_count' => $this->cart->totalQty(),
             'cart_total' => $this->cart->total(),
+            'csrf_hash'  => csrf_hash(),
         ]);
     }
 
@@ -117,6 +122,7 @@ class CartController extends BaseController
             'message'    => 'Keranjang belanja berhasil dikosongkan.',
             'cart_count' => 0,
             'cart_total' => 0,
+            'csrf_hash'  => csrf_hash(),
         ]);
     }
 
@@ -126,6 +132,7 @@ class CartController extends BaseController
             'status'     => 'success',
             'cart_count' => $this->cart->totalQty(),
             'cart_total' => $this->cart->total(),
+            'csrf_hash'  => csrf_hash(),
         ]);
     }
 

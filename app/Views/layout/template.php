@@ -68,25 +68,12 @@
             margin: 0;
         }
 
-        .sidebar-brand h4 .brand-icon {
-            width: 42px;
-            height: 42px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-        }
-
         .sidebar-brand small {
             color: rgba(255, 255, 255, 0.5);
             font-size: 0.75rem;
             font-weight: 400;
             display: block;
             margin-top: 4px;
-            padding-left: 54px;
         }
 
         .sidebar-menu {
@@ -517,15 +504,20 @@
 
     <?php
         $currentUrl = uri_string();
-        $menuItems = [
-            ['url' => 'dashboard',      'icon' => 'bi-grid-1x2-fill',  'label' => 'Dashboard'],
-            ['url' => 'jenis-layanan',  'icon' => 'bi-tags-fill',      'label' => 'Jenis Layanan'],
-            ['url' => 'pelanggan',      'icon' => 'bi-people-fill',    'label' => 'Pelanggan'],
-            ['url' => 'transaksi',      'icon' => 'bi-receipt',        'label' => 'Transaksi'],
-            ['url' => 'cart',           'icon' => 'bi-cart3',          'label' => 'Keranjang'],
-            ['url' => 'laporan',        'icon' => 'bi-bar-chart-fill', 'label' => 'Laporan'],
-            ['url' => 'pengaturan',     'icon' => 'bi-gear-fill',      'label' => 'Pengaturan'],
+        $userRole   = session()->get('user_role');
+        $allMenuItems = [
+            ['url' => 'dashboard',      'icon' => 'bi-grid-1x2-fill',  'label' => 'Dashboard',       'roles' => ['admin', 'kasir']],
+            ['url' => 'jenis-layanan',  'icon' => 'bi-tags-fill',      'label' => 'Jenis Layanan',   'roles' => ['admin', 'kasir']],
+            ['url' => 'pelanggan',      'icon' => 'bi-people-fill',    'label' => 'Pelanggan',       'roles' => ['admin', 'kasir']],
+            ['url' => 'transaksi',      'icon' => 'bi-receipt',        'label' => 'Transaksi',       'roles' => ['admin', 'kasir']],
+            ['url' => 'cart',           'icon' => 'bi-cart3',          'label' => 'Keranjang',       'roles' => ['admin', 'kasir']],
+            ['url' => 'laporan',        'icon' => 'bi-bar-chart-fill', 'label' => 'Laporan',         'roles' => ['admin']],
+            ['url' => 'pengaturan',     'icon' => 'bi-gear-fill',      'label' => 'Pengaturan',      'roles' => ['admin']],
         ];
+        $menuItems = array_filter($allMenuItems, function ($item) use ($userRole) {
+            return in_array($userRole, $item['roles']);
+        });
+        $menuItems = array_values($menuItems);
         $cartLib   = new \App\Libraries\Cart();
         $cartCount = $cartLib->totalQty();
     ?>
@@ -533,9 +525,6 @@
     <aside class="sidebar">
         <div class="sidebar-brand">
             <h4>
-                <span class="brand-icon">
-                    <i class="bi bi-droplet-fill"></i>
-                </span>
                 FreshWash
             </h4>
             <small>Laundry Management System</small>
